@@ -28,6 +28,7 @@ const client = new MongoClient(uri, {
 
 const database = client.db("coffeeDB");
 const coffeeCollection = database.collection("coffee");
+const userCollection = database.collection("users");
 
 // coffee list api
 app.get("/coffee", async (req, res) => {
@@ -84,6 +85,14 @@ app.delete("/coffee/:id", async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
   const result = await coffeeCollection.deleteOne(query);
+  res.send(result);
+});
+
+// Create user api
+app.post("/users", async (req, res) => {
+  console.log("create user api is hitting");
+  const user = req.body;
+  const result = await coffeeCollection.insertOne(user);
   res.send(result);
 });
 
