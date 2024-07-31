@@ -88,11 +88,28 @@ app.delete("/coffee/:id", async (req, res) => {
   res.send(result);
 });
 
+// Users list api
+app.get("/users", async (req, res) => {
+  console.log("User list api is hitting");
+  const users = userCollection.find();
+  const result = await users.toArray();
+  res.send(result);
+});
+
 // Create user api
 app.post("/users", async (req, res) => {
   console.log("create user api is hitting");
   const user = req.body;
-  const result = await coffeeCollection.insertOne(user);
+  const result = await userCollection.insertOne(user);
+  res.send(result);
+});
+
+// User Delete api
+app.delete("/users/:id", async (req, res) => {
+  console.log("Delete api is hitting");
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await userCollection.deleteOne(query);
   res.send(result);
 });
 
