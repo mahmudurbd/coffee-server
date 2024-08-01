@@ -104,6 +104,21 @@ app.post("/users", async (req, res) => {
   res.send(result);
 });
 
+// Update User
+app.patch("/users", async (req, res) => {
+  console.log("Update api is hitting");
+  const user = req.body;
+  const filter = { email: user.email };
+  // const options = { upsert: true };
+  const updatedDoc = {
+    $set: {
+      lastLoggedAt: user.lastLoggedAt,
+    },
+  };
+  const result = await userCollection.updateOne(filter, updatedDoc);
+  res.send(result);
+});
+
 // User Delete api
 app.delete("/users/:id", async (req, res) => {
   console.log("Delete api is hitting");
